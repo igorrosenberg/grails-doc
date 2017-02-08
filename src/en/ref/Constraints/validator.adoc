@@ -85,6 +85,18 @@ class Astronaut {
 // Note that argument 3 is the property value converted toString to avoid the unwanted formatting as described before.
 astronaut.yearOfFirstSpaceTravel.datePriorTo=The value {3} entered for the year of the first space travel is prior to the year of birth ({4}). Please correct the value.
 astronaut.yearOfFirstSpaceTravel.maybeABitTooYoung={3} years seems a bit young for travelling to space, dude!
+
+// Example 4: You may further encapsulate the validation logic in a service 
+
+class Astronaut {
+    def spaceService	// auto-injected service, and 'def' makes this field transient
+    Integer yearOfBirth
+    Integer yearOfFirstSpaceTravel
+
+    yearOfFirstSpaceTravel validator: { val, obj -> 
+        obj.spaceService.validateYearOfFirstSpaceTravel(val, obj)
+    }
+}
 ----
 
 
@@ -103,3 +115,4 @@ Please note that in the final error message, the label for this property will be
 
 When explicitly passing error codes, it is usually not necessary to return the error code using the "return" keyword, because if the validator returns from the closure, it will check if any errors have been attached to the errors object.
 This can be especially seen in the case of a three-parameter Closure where it is expected that the `Errors` object will be updated directly.
+
